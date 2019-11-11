@@ -27,7 +27,7 @@ function parse_json(jsonData) {
     	chart: {
     		type: 'area'
     	},
-    	series: energyData
+    	series: globalEnergyData
 	});
 
     // var priceData = jsonData.filter(function(elm) {
