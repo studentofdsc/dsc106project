@@ -13,16 +13,19 @@ function updateGlobalEnergyData(data) {
 }
 
 function parse_json(jsonData) {
-    var energyData = jsonData.map(function(elm) {
+    var energyData = jsonData.filter(function(elm) {
+        return elm['type'] === 'power';
+    }).map(function(elm) {
         return {
           values: elm['history']['data'],
           text: elm['id']
         };
     });
     updateGlobalEnergyData(energyData);
+    console.debug(globalEnergyData)
     Highcharts.chart('container', {
     	chart: {
-    		type: 'column'
+    		type: 'area'
     	},
     	series: energyData
 	});
