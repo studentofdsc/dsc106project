@@ -21,6 +21,7 @@ function parse_json(jsonData) {
           text: elm['id']
         };
     });
+    console.debug(energyData)
     updateGlobalEnergyData(energyData);
     console.debug(globalEnergyData)
     var globalEnergyData_dict = {}
