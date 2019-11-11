@@ -13,7 +13,6 @@ function updateGlobalEnergyData(data) {
 }
 
 function parse_json(jsonData) {
-	var data = JSON.parse(jsonData);
     var energyData = jsonData.map(function(elm) {
         return {
           values: elm['history']['data'],
