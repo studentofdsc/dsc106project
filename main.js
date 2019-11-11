@@ -1,4 +1,4 @@
-var energyData = {
+var globalEnergyData = {
   keys: [],
   values: []
 };
