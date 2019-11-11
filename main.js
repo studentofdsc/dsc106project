@@ -23,11 +23,17 @@ function parse_json(jsonData) {
     });
     updateGlobalEnergyData(energyData);
     console.debug(globalEnergyData)
+    var globalEnergyData_dict = {}
+    for (i = 0; i < globalEnergyData['keys'].length; i++){
+        globalEnergyData_dict[globalEnergyData['keys'][i]] = globalEnergyData['values'][i]
+    }
+    console.debug(globalEnergyData_dict)
+
     Highcharts.chart('container', {
     	chart: {
     		type: 'area'
     	},
-    	series: globalEnergyData
+    	series: globalEnergyData_dict
 	});
 
     // var priceData = jsonData.filter(function(elm) {
