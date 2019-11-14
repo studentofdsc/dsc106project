@@ -1,60 +1,44 @@
-['mousemove', 'touchmove', 'touchstart'].forEach(function (eventType) {
+['mousemove', 'touchmove', 'touchstart'].forEach(function (eventType){
     document.getElementById('container').addEventListener(
         eventType,
-        function (e) {
-            var chart,
-                point,
-                i,
-                event;
-
-            for (i = 0; i < Highcharts.charts.length; i = i + 1) {
-                chart = Highcharts.charts[i];
-                // Find coordinates within the chart
-                event = chart.pointer.normalize(e);
-                // Get the hovered point
-                point = chart.series[0].searchPoint(event, true);
-                if (point) {
-                    point.highlight(e);
+        function (e){
+            var chart
+            var point
+            var i
+            var event
+            for (i = 0; i < Highcharts.charts.length; i = i + 1){
+                chart = Highcharts.charts[i]
+                event = chart.pointer.normalize(e)
+                point = chart.series[0].searchPoint(event, true)
+                if (point){
+                    point.highlight(e)
                 }
             }
         }
     );
 });
-
-/**
- * Override the reset function, we don't need to hide the tooltips and
- * crosshairs.
- */
-Highcharts.Pointer.prototype.reset = function () {
-    return undefined;
+Highcharts.Pointer.prototype.reset = function (){
+    return undefined
 };
-
-/**
- * Highlight a point by showing tooltip, setting hover state and draw crosshair
- */
-Highcharts.Point.prototype.highlight = function (event) {
-    event = this.series.chart.pointer.normalize(event);
-    this.onMouseOver(); // Show the hover marker
-    this.series.chart.tooltip.refresh(this); // Show the tooltip
-    this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
+Highcharts.Point.prototype.highlight = function (event){
+    event = this.series.chart.pointer.normalize(event)
+    this.onMouseOver()
+    this.series.chart.tooltip.refresh(this);
+    this.series.chart.xAxis[0].drawCrosshair(event, this)
 };
+function syncExtremes(e){
+    var thisChart = this.chart
 
-/**
- * Synchronize zooming through the setExtremes event handler.
- */
-function syncExtremes(e) {
-    var thisChart = this.chart;
-
-    if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
-        Highcharts.each(Highcharts.charts, function (chart) {
-            if (chart !== thisChart) {
-                if (chart.xAxis[0].setExtremes) { // It is null while updating
+    if (e.trigger !== 'syncExtremes'){ 
+        Highcharts.each(Highcharts.charts, function (chart){
+            if (chart !== thisChart){
+                if (chart.xAxis[0].setExtremes){
                     chart.xAxis[0].setExtremes(
                         e.min,
                         e.max,
                         undefined,
                         false,
-                        { trigger: 'syncExtremes' }
+                        {trigger: 'syncExtremes'}
                     );
                 }
             }
@@ -112,6 +96,9 @@ function parse_json(jsonData) {
             crosshair:true,
             type:'datetime'
         },
+        yAxis:{
+            title:'MW'
+        },
         plotOptions:{
             area:{
                 stacking:'normal',
@@ -137,7 +124,7 @@ function parse_json(jsonData) {
         tooltip:{
             positioner: function(){
                 return{
-                    x:this.chart.chartWidth - this.label.width-250,
+                    x:this.chart.chartWidth - this.label.width,
                     y:10
                 };
             },
@@ -147,7 +134,7 @@ function parse_json(jsonData) {
             headerFormat:'',
             shadow:false,
             style:{
-                fontsize:'12px'
+                fontsize:'8px'
             }
         },
         series:[{
@@ -212,7 +199,7 @@ function parse_json(jsonData) {
 
 
     var priceData = jsonData.filter(function(elm) {
-        return elm['type'] === 'price';
+        return elm['type'] === 'price'
     }).map(function(elm) {
         return {
           values: elm['history']['data'],
@@ -270,9 +257,9 @@ function parse_json(jsonData) {
 
 
 
-    var tempData = jsonData.filter(function(elm) {
-        return elm['type'] === 'temperature';
-    }).map(function(elm) {
+    var tempData = jsonData.filter(function(elm){
+        return elm['type'] === 'temperature'
+    }).map(function(elm){
         return {
           values: elm['history']['data'],
           text: elm['id'].substring(22)
@@ -386,14 +373,14 @@ function fetchJSONFile(filePath, callbackFunc) {
                     "with error:", httpRequest.statusText);
             }
         }
-    };
-    httpRequest.open('GET', filePath);
-    httpRequest.send();
+    }
+    httpRequest.open('GET', filePath)
+    httpRequest.send()
 }
 
 function doMain() {
 
-    fetchJSONFile('springfield.json',parse_json);
+    fetchJSONFile('springfield.json',parse_json)
 }
 
-document.onload = doMain();
+document.onload = doMain()
