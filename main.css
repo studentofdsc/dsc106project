@@ -1,0 +1,21 @@
+
+#container{
+	width:50%;
+	height:300px;
+}
+
+#container2 {
+    width:50%;
+    height:150px;
+}
+
+#container3 {
+	width:50%;
+	height:150px;
+}
+
+#container_pie{
+	float:right;
+	width:50%;
+	height:100%;
+}
